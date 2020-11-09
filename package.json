@@ -1,6 +1,6 @@
 {
 	"name": "homebridge-piazzetta-stove-simple",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Homebridge plugin to control Piazzetta pellets stove via Micronova's WiFi module.",
 	"main": "index.js",
 	"scripts": {
