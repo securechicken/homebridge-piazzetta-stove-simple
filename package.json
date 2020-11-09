@@ -1,0 +1,46 @@
+{
+	"name": "homebridge-piazzetta-stove-simple",
+	"version": "0.0.1-alpha",
+ 	"description": "Homebridge plugin to control Piazzetta pellets stove via Micronova's WiFi module.",
+	"main": "index.js",
+	"scripts": {
+		"lint": "jshint index.js",
+		"test": "npm run lint && echo 'No test :('",
+		"dev": "sudo npm link && sudo hb-service restart"
+	},
+	"engines": {
+		"homebridge": "^1.1.6"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:securechicken/homebridge-piazzetta-stove-simple.git"
+	},
+	"keywords": [
+		"homebridge-plugin",
+		"homebridge",
+		"piazzetta",
+		"pellets-stove"
+	],
+	"author": "@securechicken",
+	"license": "AGPL-3.0-only",
+	"bugs": {
+		"url": "https://github.com/securechicken/homebridge-piazzetta-stove-simple/issues"
+	},
+	"dependencies": {
+		"node-fetch": "^2.6.1"
+	},
+	"devDependencies": {
+		"jshint": "^2.12.0",
+		"np": "^7.0.0"
+	},
+	"jshintConfig": {
+		"bitwise": true,
+		"esversion": 6,
+		"strict": "implied",
+		"undef": true,
+		"unused": true,
+		"module": true,
+		"node": true
+	},
+	"homepage": "https://github.com/securechicken/homebridge-piazzetta-stove-simple"
+}

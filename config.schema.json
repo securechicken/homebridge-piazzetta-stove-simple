@@ -1,0 +1,41 @@
+{
+	"pluginAlias": "HeaterCoolerPiazzettaStoveSimple",
+	"pluginType": "accessory",
+	"singular": true,
+	"headerDisplay": "Homebridge plugin to control Piazzetta pellets stove via Micronova's WiFi module",
+	"footerDisplay": null,
+	"schema": {
+		"type": "object",
+		"properties": {
+			"name": {
+				"title": "Name",
+				"description": "The nickname you want to give to your device",
+				"type": "string",
+				"required": true
+			},
+			"login": {
+				"title": "Login",
+				"description": "Piazetta WiFi App (Efesto) Login",
+				"type": "string",
+				"format": "email",
+				"required": true
+			},
+			"password": {
+				"title": "Password",
+				"description": "Piazzetta WiFi App Password",
+				"type": "string",
+				"required": true
+			},
+			"id": {
+				"title": "WiFi Module MAC",
+				"description": "Your stove ID, which is the WIFI module MAC address in upper-case without separators",
+				"type": "string",
+				"minLength": 12,
+				"maxLength": 12,
+				"required": true
+			}
+		}
+	},
+	"form": null,
+	"display": null
+}
