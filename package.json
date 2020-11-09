@@ -19,7 +19,9 @@
 		"homebridge-plugin",
 		"homebridge",
 		"piazzetta",
-		"pellets-stove"
+		"pellets",
+		"stove",
+		"heater-control"
 	],
 	"author": "@securechicken",
 	"license": "AGPL-3.0-only",
