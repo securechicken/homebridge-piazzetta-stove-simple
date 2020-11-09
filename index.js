@@ -7,7 +7,7 @@ Copyright (C) 2020, @securechicken
 
 const PLUGIN_NAME = "homebridge-piazzetta-stove-simple";
 const PLUGIN_AUTHOR = "@securechicken";
-const PLUGIN_VERSION = "0.1.0";
+const PLUGIN_VERSION = "0.1.1";
 const PLUGIN_DEVICE_MANUFACTURER = "Piazzetta";
 const PLUGIN_DEVICE_MODEL = "Piazzetta Stove";
 const ACCESSORY_PLUGIN_NAME = "HeaterCoolerPiazzettaStoveSimple";
@@ -26,7 +26,6 @@ const HTTP_REP_COOKIE_HEADER = "set-cookie";
 const HTTP_UA = "homebridge-piazzetta-stove-simple/" + PLUGIN_VERSION;
 const API_PROTOCOL = "https://";
 const API_HOSTNAME = "piazzetta.efesto.web2app.it";
-const API_MAX_LOGIN_ATTEMPTS = 2;
 const API_LOGIN = "/en/login/";
 const API_LOGIN_PARAM_LOGIN = "login[username]=";
 const API_LOGIN_PARAM_PASSWORD = "login[password]=";
@@ -248,27 +247,23 @@ class HeaterCoolerPiazzettaStoveSimple {
 			});
 	}
 
-	_autoLoginWrapper(isInitCall) {
-		for (let attempt = 1; attempt <= API_MAX_LOGIN_ATTEMPTS; attempt++) {
-			const init = isInitCall;
-			const attemptc = attempt;
-			if (init) {
-				this.log.info("First log-in (attempt " + attemptc + ")");
-			} else {
-				this.log.info("Attempting auto log-in (attempt " + attemptc + ")");
-			}
-			this._sendAPILogin( (err, token) => {
-				if (token || !err) {
-					if (init) {
-						this.log.info("Successfully logged-in: " + token);
-					} else {
-						this.log.info("Successfully logged-in automatically after set delay: " + token);
-					}
-				} else {
-					this.log.error("Attempt " + attemptc + ": could not log-in with login '" + this.config.login + "': " + err);
-				}
-			} );
+	_autoLoginWrapper(init) {
+		if (init) {
+			this.log.info("First log-in");
+		} else {
+			this.log.info("Attempting auto log-in");
 		}
+		this._sendAPILogin( (err, token) => {
+			if (token || !err) {
+				if (init) {
+					this.log.info("Successfully logged-in: " + token);
+				} else {
+					this.log.info("Successfully logged-in automatically after set delay: " + token);
+				}
+			} else {
+				this.log.error("Could not log-in with login '" + this.config.login + "': " + err);
+			}
+		} );
 	}
 
 	// Send remote key to player network remote API
