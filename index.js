@@ -77,17 +77,24 @@ class HeaterCoolerPiazzettaStoveSimple {
 
 		this.isAuth = false;
 		this.authToken = null;
+		// Required to allow non verified HTTPS certs (Efesto API calls are non HTTPS by 
+		// default if official apps... and their cert is auto-signed)
 		this.httpsAgent = new https.Agent({ rejectUnauthorized: false });
 		this.httpHeaders = {};
+		// Auth to API is done with a mere cookie
 		this.httpHeaders[HTTP_REQ_UA_HEADER] = HTTP_UA;
 		this.httpHeaders[HTTP_REQ_COOKIE_HEADER] = this.authToken;
+		// Stove status cache, as returned by API
 		this.status = {};
 		this.status[STOVE_STATUS_STATE] = 0;
 		this.status[STOVE_STATUS_CURRENT_TEMP] = STOVE_MIN_TEMP;
 		this.status[STOVE_STATUS_SET_TEMP] = STOVE_MIN_TEMP_THRESHOLD;
 		this.status[STOVE_STATUS_CURRENT_POWER] = STOVE_MIN_POWER;
 		this.status[STOVE_STATUS_SET_POWER] = STOVE_MIN_POWER;
+		this.status[STOVE_STATUS_ALARM] = STOVE_ALARM_STATUS_OK;
+		this.status[STOVE_STATUS_CONNECTION] = STOVE_CONNECTION_STATUS_OK;
 		this.status[STOVE_STATUS_TIMESTAMP] = null;
+		// Mappings between HomeKit states and API returned one.
 		this.statusStateMap = new Map([
 			[0, this.Characteristic.CurrentHeaterCoolerState.INACTIVE], // OFF, OFF E
 			[1, this.Characteristic.CurrentHeaterCoolerState.IDLE], // TURNING OFF, AWAITING FLAME (+ ERROR 32)
@@ -108,8 +115,9 @@ class HeaterCoolerPiazzettaStoveSimple {
 			[6, this.Characteristic.Active.ACTIVE],
 			[7, this.Characteristic.Active.ACTIVE]
 		]);
+		// Anti power swinging protection
 		this.lastPowerChange = null;
-
+		// Auto login to API (at start, then every 24h)
 		this._autoLoginWrapper(true);
 		setInterval( this._autoLoginWrapper.bind(this), API_LOGIN_AUTOLOGIN_DELAY, false);
 
@@ -247,6 +255,7 @@ class HeaterCoolerPiazzettaStoveSimple {
 			});
 	}
 
+	// API auto-login wrapper that can be called regularly
 	_autoLoginWrapper(init) {
 		if (init) {
 			this.log.info("First log-in");
@@ -266,7 +275,7 @@ class HeaterCoolerPiazzettaStoveSimple {
 		} );
 	}
 
-	// Send remote key to player network remote API
+	// Send stove command to API (Efesto)
 	_sendAPIRequest(url, callback) {
 		if (this.isAuth) {
 			this.httpHeaders[HTTP_REQ_COOKIE_HEADER] = API_METHOD_PARAM_TOKEN + this.authToken;
@@ -299,7 +308,7 @@ class HeaterCoolerPiazzettaStoveSimple {
 		}
 	}
 
-	// Method API request helper
+	// Wrapper to send an API request from command name (method) and params only 
 	_sendAPIMethod(method, params, callback) {
 		let url = API_ENDPOINT_FRONTEND + "?" + API_METHOD_PARAM_DEVICE + this.config.id + "&" + API_METHOD_PARAM_METHOD + method;
 		if (params) {
