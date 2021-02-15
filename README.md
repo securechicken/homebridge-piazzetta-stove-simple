@@ -1,6 +1,10 @@
 # homebridge-piazzetta-stove-simple
 Homebridge plugin to control Piazzetta pellets stove (with Micronova's WiFi module and associated Efesto Web service account) from iOS/HomeKit.
 
+| :warning: WARNING          |
+|:---------------------------|
+| Piazzetta (Micronova?) is dropping and deprecating the "Q030" (white) external WiFi module, as well as associated mobile app, web service, etc. They should all cease to work somewhere in 2021, and Piazzetta is freely replacing such modules by a successor one (Micronova Aqua-IOT "WiFi Navel 2.0"). This repository is being archived as a consequence, and another module might be developed for Homebridge. |
+
 ## Supported stoves
 As of now, only "Trend Line" Piazzetta stoves from 2017+ with a Piazzetta WiFi module and associated official app account are known to be supported.  
 In theory, lots of models with Micronova mother board and WiFi module could be supported, even for non-Piazzetta brands.  
