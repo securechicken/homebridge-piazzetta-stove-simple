@@ -7,7 +7,7 @@ Copyright (C) 2020, @securechicken
 
 const PLUGIN_NAME = "homebridge-piazzetta-stove-simple";
 const PLUGIN_AUTHOR = "@securechicken";
-const PLUGIN_VERSION = "0.1.1";
+const PLUGIN_VERSION = "1.0.0";
 const PLUGIN_DEVICE_MANUFACTURER = "Piazzetta";
 const PLUGIN_DEVICE_MODEL = "Piazzetta Stove";
 const ACCESSORY_PLUGIN_NAME = "HeaterCoolerPiazzettaStoveSimple";
